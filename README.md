@@ -15,6 +15,8 @@ El objetivo de esta tarea es entonces :
 4. Ejecutar la aplicacion y mostar evidencia de su ejecucion y correcto funcionamiento
 5. Subir a un repositorio github personal, el archivo Dockerfile asi como evidencia de la correcta ejecucion de la aplicacion.
 
+![alt text](dockerfile-tarea-1/prueba1.png)
+
 
 dockerfile-tarea-2
 ---------
