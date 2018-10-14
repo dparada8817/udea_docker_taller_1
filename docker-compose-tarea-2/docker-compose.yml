@@ -1,0 +1,37 @@
+version: '3'
+services:
+  front:
+    build:
+      context: ./ms-front/.
+      dockerfile: Dockerfile
+    image: dparada8817/front
+    networks:
+      - frontnetwork
+    ports:
+      - '80:80'
+      - '443:443'
+    depends_on:
+      - "backend"
+  backend:
+    build:
+      context: ./ms-backend/.
+      dockerfile: Dockerfile
+    image: dparada8817/backend
+    networks: 
+      - frontnetwork
+      - backnetwork
+    depends_on:
+      - "dbserver"
+  dbserver:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    container_name: db-server
+    networks: 
+      - backnetwork
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+networks:
+  backnetwork:
+    driver: bridge
+  frontnetwork:
+    driver: bridge
