@@ -1,5 +1,54 @@
 version: '3'
 services:
+  elasticsearch:
+    image: elasticsearch:5.6.12-alpine
+    ports:
+      - '9200:9200'
+      - '9300:9300'
+    container_name: elasticsearch
+    hostname: elasticsearch
+    networks: 
+      - elknetwork
+  kibana:
+    image: kibana:5.6.12
+    ports:
+      - '5601:5601'
+    links:
+      - "elasticsearch:elasticsearch"
+    container_name: kibana
+    hostname: kibana
+    networks: 
+      - elknetwork
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+    depends_on:
+      - "elasticsearch"
+  logstash:
+    image: logstash:5.6.12-alpine
+    links:
+      - "elasticsearch:elasticsearch"
+    container_name: logstash
+    hostname: logstash
+    networks: 
+      - elknetwork
+    volumes:
+      - ./logstash:/home/app/config-dir
+      - logs:/home/app/logs
+    command: logstash -f /home/app/config-dir/logstash.conf
+    depends_on:
+      - "kibana"  
+  nginx-proxy:
+    image: jwilder/nginx-proxy:alpine
+    ports:
+      - '80:80'
+      - '443:443'
+    networks: 
+      - frontnetwork
+    volumes:
+      - ./certs:/etc/nginx/certs
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    depends_on:
+      - "dbserver"
   front:
     build:
       context: ./ms-front/.
@@ -7,9 +56,11 @@ services:
     image: dparada8817/front
     networks:
       - frontnetwork
-    ports:
-      - '80:80'
-      - '443:443'
+    environment:
+      VIRTUAL_HOST: front.local.com
+      HTTPS_METHOD: noredirect
+    volumes:
+      - logs:/var/log/nginx
     depends_on:
       - "backend"
   backend:
@@ -20,18 +71,32 @@ services:
     networks: 
       - frontnetwork
       - backnetwork
+    volumes:
+      - logs:/home/app/logs
+    deploy:  
+      resources:  
+        limits:
+          cpus: '1'
+          memory: 256M
     depends_on:
-      - "dbserver"
+      - "logstash"
   dbserver:
     image: mysql
     command: --default-authentication-plugin=mysql_native_password
     container_name: db-server
     networks: 
       - backnetwork
+    volumes:
+      - db-server-data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: example
 networks:
   backnetwork:
     driver: bridge
+  elknetwork:
+    driver: bridge
   frontnetwork:
     driver: bridge
+volumes:
+  db-server-data:
+  logs:

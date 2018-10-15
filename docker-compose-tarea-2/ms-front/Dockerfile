@@ -4,5 +4,6 @@ COPY . .
 RUN apk update && npm install && npm run build
 
 FROM nginx:1.13
+EXPOSE 80 443
 COPY --from=builder /home/app/dist/ /var/www/dist/app
 COPY ./conf/ /etc/nginx/conf.d/
