@@ -64,4 +64,17 @@ Solucion
 
 ![alt text](docker-compose-tarea-2/evidencias/logskibana.png)
 
+![alt text](docker-compose-tarea-2/evidencias/escalamientofront.png)
+
+![alt text](docker-compose-tarea-2/evidencias/escalamientocompleto.png)
+
+![alt text](docker-compose-tarea-2/evidencias/llamadosscalamiento.png)
+
+![alt text](docker-compose-tarea-2/evidencias/escalamientoback2.png)
+
+![alt text](docker-compose-tarea-2/evidencias/escalamientofront2.png)
+
+
+
+
 
