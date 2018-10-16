@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by DavidAlexander.
@@ -14,6 +16,8 @@ import java.util.List;
 
 @Component
 public class ServicioItem {
+
+    Logger logger = Logger.getLogger("com.docker.taller.msbackend.servicio.ServicioItem");
 
 
     @Autowired
@@ -25,15 +29,16 @@ public class ServicioItem {
         Item save = itemRepositorio.save(item);
         if(save!=null){
         System.out.println(save);
+        logger.log(Level.INFO, save.toString());
         return save;
         }else{
-            throw new PersistenciaException("Error al guardar la Factura");
+            throw new PersistenciaException("Error al guardar el item");
         }
     }
 
     public List<Item> getItems() {
         List<Item> items = itemRepositorio.findAll();
-        System.out.println(items);
+        logger.log(Level.INFO, items.toString());
         return items;
     }
 }

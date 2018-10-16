@@ -33,7 +33,8 @@ services:
       - elknetwork
     volumes:
       - ./logstash:/home/app/config-dir
-      - logs:/home/app/logs
+      - logsback:/home/app/logs/back
+      - logsfront:/home/app/logs/front
     command: logstash -f /home/app/config-dir/logstash.conf
     depends_on:
       - "kibana"  
@@ -60,7 +61,7 @@ services:
       VIRTUAL_HOST: front.local.com
       HTTPS_METHOD: noredirect
     volumes:
-      - logs:/var/log/nginx
+      - logsfront:/home/app/logs/
     depends_on:
       - "backend"
   backend:
@@ -72,7 +73,7 @@ services:
       - frontnetwork
       - backnetwork
     volumes:
-      - logs:/home/app/logs
+      - logsback:/home/app/logs
     deploy:  
       resources:  
         limits:
@@ -89,7 +90,7 @@ services:
     volumes:
       - db-server-data:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: example
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
 networks:
   backnetwork:
     driver: bridge
@@ -99,4 +100,5 @@ networks:
     driver: bridge
 volumes:
   db-server-data:
-  logs:
+  logsback:
+  logsfront:

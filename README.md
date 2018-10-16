@@ -40,3 +40,28 @@ El objetivo de esta tarea es entonces :
 3. El motor de de Base de Datos usado debe ser MySQL
 4. La logica/caso de uso a desarrollar en el microservicio queda a discrecion del estudiante
 5. Para facilidad en la resolucion del taller, el estudiante puede usar los microservicios desarrollados en el curso anterior.
+
+Solucion
+---------------
+
+![alt text](docker-compose-tarea-2/evidencias/iniciocontenedores.png)
+
+![alt text](docker-compose-tarea-2/evidencias/contenedores.png)
+
+![alt text](docker-compose-tarea-2/evidencias/frontapphttp.png)
+
+![alt text](docker-compose-tarea-2/evidencias/frontapphttps.png)
+
+![alt text](docker-compose-tarea-2/evidencias/peticionguardarhttp.png)
+
+![alt text](docker-compose-tarea-2/evidencias/peticionesserver.png)
+
+![alt text](docker-compose-tarea-2/evidencias/peticiondocker.png)
+
+![alt text](docker-compose-tarea-2/evidencias/peticionguardarhttps.png)
+
+![alt text](docker-compose-tarea-2/evidencias/logdocker.png)
+
+![alt text](docker-compose-tarea-2/evidencias/logskibana.png)
+
+
